@@ -1,0 +1,1187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC  
+     "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"  
+     "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<constant name="struts.enable.DynamicMethodInvocation" value="true" />
+	<constant name="struts.devMode" value="false" />
+	<constant name="serve.static.browserCache" value="false" />
+
+	<package name="MCENTER" extends="json-default">
+	
+	<interceptors>
+		<interceptor name="authenticationInterceptor" class="util.interceptor.AuthenticationInterceptor"/>
+		<interceptor name="webInterceptor" class="util.interceptor.WebInterceptor"/>
+		
+		<interceptor-stack name="secureStack">
+				<interceptor-ref name="authenticationInterceptor" />
+				<interceptor-ref name="defaultStack" >
+              			<param name="params.excludeParams">
+                 		d-\d+?-[sop]
+              			</param>
+              	</interceptor-ref>
+			</interceptor-stack>
+			<!-- This is for addFieldError -->
+
+			<interceptor-stack name="defaultStack">		
+				<interceptor-ref name="webInterceptor" />	   
+				<interceptor-ref name="exception" />
+				<interceptor-ref name="alias" />
+				<interceptor-ref name="servletConfig" />
+				<interceptor-ref name="prepare" />
+				<interceptor-ref name="i18n" />
+				<interceptor-ref name="chain" />
+				<interceptor-ref name="debugging" />
+				<interceptor-ref name="profiling" />
+				<interceptor-ref name="scopedModelDriven" />
+				<interceptor-ref name="modelDriven" />
+				<interceptor-ref name="fileUpload" />
+				<interceptor-ref name="checkbox" />
+				<interceptor-ref name="staticParams" />
+				<interceptor-ref name="json"/>
+								
+				<interceptor-ref name="params">
+					<param name="excludeParams">dojo\..*</param>
+					<param name="excludeParams">d-\d+?-[sop]</param>
+				</interceptor-ref>
+				<interceptor-ref name="conversionError" />
+				<interceptor-ref name="validation">
+					<param name="excludeMethods">
+						input,back,cancel,browse
+					</param>
+				</interceptor-ref>
+				<interceptor-ref name="workflow">
+					<param name="excludeMethods">
+						input,back,cancel,browse
+					</param>
+				</interceptor-ref>
+			</interceptor-stack>			
+	
+	</interceptors>
+	
+	
+	
+	<default-interceptor-ref name="secureStack" />
+
+		<global-results>
+
+			<result name="userlogin" type="redirectAction">
+				checkvalidity.action
+			</result>
+			<result name="invalid.token">
+				/WEB-INF/jsp/util/duplicateformsubmission/duplicateformsubmission.jsp
+			</result>
+			<result name="sessiontimeout" type="redirectAction">logout</result>
+			<result name="custom_error">/WEB-INF/jsp/util/error/CustomError.jsp</result>
+		</global-results>
+		
+		<global-exception-mappings>
+		 <exception-mapping exception="java.lang.Exception" result="custom_error" />
+		</global-exception-mappings>
+		
+		<action name="keyGeneration" class="util.encryption.KeyGeneration" >
+			<interceptor-ref name="defaultStack" />
+		</action>	
+		
+		<action name="index" class="util.Index">
+			<result name="success">/WEB-INF/jsp/index.jsp</result>
+			<interceptor-ref name="defaultStack" />
+		</action>
+			
+		<action name="checkvalidity" class="util.login.CheckValidity">
+			<result name="error">/WEB-INF/jsp/index.jsp</result>
+			<result name="success">/WEB-INF/jsp/login/loginhome.jsp</result>
+			<interceptor-ref name="secureStack" />
+		</action>
+		
+		<action name="changepassstep1">
+		   <result name="success">
+				/WEB-INF/jsp/login/changepassword/changepasswordHome.jsp
+			</result>
+			<interceptor-ref name="defaultStack" />
+		</action> 
+		
+	    <action name="changePassword" class="util.login.ChangePassword1" method="changePassword" >
+			<result name="success">/WEB-INF/jsp/login/changepassword/successful.jsp</result>
+		</action>
+
+		<action name="searchnewstudent" class="com.mcenter.moneyReceiptofMedicalCheckUp.MoneyReceiptforNewstudentMedicalCheckup" method="searchNewStudent">
+              <result type="json"></result>
+              <interceptor-ref name="defaultStack" />
+		</action>
+
+		<!-- Ruma -->
+		<action name="select" class="com.patient.PatientAction" method="patient">
+            <result name="success">/WEB-INF/jsp/patient/select.jsp</result>
+            <interceptor-ref name="defaultStack" />
+        </action>
+		
+		<action name="fetchtdlist" class="com.patient.FetchtodaysAction" method="fetchTodayslist">
+
+            <result name="success">/WEB-INF/jsp/patient/asixtodayspatient.jsp</result>
+			<interceptor-ref name="defaultStack" />
+        </action>
+		
+		
+		<action name="selectdate" class="com.patient.PatientAction" method="historydate">
+            <result name="success">/WEB-INF/jsp/patient/selectdate.jsp</result>
+			<interceptor-ref name="defaultStack" />
+        </action>
+        
+        <action name="selectdate1" class="com.patient.PatientAction" method="historydate">
+            <result name="success">/WEB-INF/jsp/patient/selectdate1.jsp</result>
+			<interceptor-ref name="defaultStack" />
+        </action>
+
+
+        <action name="fetchalllist" class="com.patient.FetchtodaysAction" method="fetchAlllist">
+            <result name="success">/WEB-INF/jsp/patient/asixallpatient.jsp</result>
+		<interceptor-ref name="defaultStack" />
+        </action>
+        
+        <action name="fetchalllist1" class="com.patient.FetchtodaysAction" method="fetchAlllistforAdoctor">
+            <result name="success">/WEB-INF/jsp/patient/asixallpatient.jsp</result>
+		<interceptor-ref name="defaultStack" />
+        </action>
+		
+		
+		<action name="ptdetails" class="com.patient.PatientDetail" method="detail">
+            <result name="success">/WEB-INF/jsp/patient/details.jsp</result>
+        </action>
+        
+        <action name="ptalldetails" class="com.patient.PatientDetail" method="previousPAtientdetail">
+            <result name="success">/WEB-INF/jsp/patient/alldetails.jsp</result>
+        </action>
+        
+        <action name="previouspatienthistorylist" class="com.patient.FetchtodaysAction" method="fetchpatientHIstorylist">
+            <result name="success">/WEB-INF/jsp/patient/previousHistory.jsp</result>
+		<interceptor-ref name="defaultStack" />
+        </action>
+                
+        
+        <action name="prescription" class="com.prescription.PrescriptionAction" method="prescription">
+            <result name="success">/WEB-INF/jsp/prescription/cc.jsp</result>
+
+        </action>			
+		
+		
+		<action name="GetCcType" class="com.prescription.GetCcType">
+		 <interceptor-ref name="defaultStack" />
+		 </action>
+		 
+		 <action name="GetOeType" class="com.prescription.GetOeType">
+		 <interceptor-ref name="defaultStack" />
+		 </action>
+		 
+		
+       <action name="GetTestType" class="com.prescription.GetTestType">
+        <interceptor-ref name="defaultStack" />
+        </action>
+        
+	   <action name="GetMedList" class="com.prescription.GetMedicine">
+	    <interceptor-ref name="defaultStack" />
+	    </action>
+	    
+	     <action name="GetStock" class="com.prescription.GetStock">
+	    <interceptor-ref name="defaultStack" />
+	    </action>
+	    
+	    
+	    <action name="GetTstPriceVat" class="com.prescription.GetTestPrice">
+	    <interceptor-ref name="defaultStack" />
+	    </action>
+	    
+	    <action name="savecc" class="com.prescription.Savecc" method="insert">
+            <result name="success">/WEB-INF/jsp/prescription/prescription.jsp</result>
+             <interceptor-ref name="defaultStack" />
+        </action>        
+        
+         <!--<action name="print" class="testrpt.Print" >
+            <result name="success">/WEB-INF/jsp/tstrpt/ppp.jsp</result>
+             <interceptor-ref name="defaultStack" />
+        </action> -->
+        
+        <action name="print" class="com.prescription.Savecc" method="show">
+            <result name="success">/WEB-INF/jsp/tstrpt/ppp.jsp</result>
+             <interceptor-ref name="defaultStack" />
+        </action>
+        
+        <action name="previousprescriptionSHOW" class="com.prescription.Savecc" method="previousShow">
+            <result name="success">/WEB-INF/jsp/prescription/previousPrescriotion.jsp</result>
+             <interceptor-ref name="defaultStack" />
+        </action>
+        <!-- end -->		
+
+		<action name="logout" class="util.login.Logout">
+			<result name="error">/WEB-INF/jsp/index.jsp</result>
+			<result name="success">/WEB-INF/jsp/index.jsp</result>
+			<interceptor-ref name="defaultStack" />
+		</action>
+		
+		
+
+		<action name="loadReceive" class="store.receive.StoreReceiveAction">
+			<result name="success">/WEB-INF/jsp/storereceive/receiveload.jsp</result>	
+			<interceptor-ref name="defaultStack" />
+		</action>	
+		
+		<action name="saveReceive" class="store.receive.StoreReceiveSave">
+			<result name="success">/WEB-INF/jsp/storereceive/receiveView.jsp</result>
+	
+			<interceptor-ref name="defaultStack" />
+		</action>
+		
+         <action name="receiveList" class="store.receive.StoreReceiveListAction">		 
+		 <result name="success">/WEB-INF/jsp/storereceive/receivelist.jsp</result>		 
+		 <interceptor-ref name="defaultStack" />
+		</action>	
+
+		<action name="viewReceive" class="store.receive.StoreReceiveViewAction">
+			<result name="success">/WEB-INF/jsp/storereceive/receiveView.jsp</result>	
+			<interceptor-ref name="defaultStack" />
+		</action>		
+		
+
+				
+		<action name="editReceive" class="store.receive.StoreReceiveEditAction">
+			<result name="success">/WEB-INF/jsp/storereceive/receiveEdit.jsp</result>
+	
+			<interceptor-ref name="defaultStack" />
+		</action>
+				
+				
+				
+				
+				
+				
+
+		<action name="loadIssue" class="store.issue.StoreIssueAction">
+			<result name="success">/WEB-INF/jsp/storeissue/issueload.jsp</result>
+	
+			<interceptor-ref name="defaultStack" />
+		</action>
+		
+<!-- ///////////////////////////////Adnan Action///////////////////////////////////////////////-->
+
+  <action name="createserialfornonidaction" class="com.mcenter.patientManagement.DailyPatientInput" method="createSerial">
+                         <result type="json"></result>
+                         <interceptor-ref name="defaultStack" />
+</action> 
+
+<action name="medicinereducefromsubatoreaction" class="com.mcenter.pharmasistBillManagement.PharmacyMedicineBill" method="medicinereducefromsubstore">
+                         <result name="success">/WEB-INF/jsp/pharmasistmedicinebill/dailyRegularMedicineBillprintByPharmasist1.jsp</result>
+                         <interceptor-ref name="defaultStack" />
+</action>
+
+<!-- <action name="savetestbillaction" class="com.mcenter.labtestBillManagement.DailyRegularTestBill" method="testbillTABLEsave">
+                         <result name="success">/WEB-INF/jsp/techniciantestbill/dailyRegularTestBillPrintByTechnician1.jsp</result>
+                         <interceptor-ref name="defaultStack" />
+</action> -->
+
+
+<action name="deathcertificateaction" class="com.mcenter.certificate.DeathCertificate" method="report">
+<interceptor-ref name="defaultStack" />
+</action> 
+
+<action name="deathcertificateactionE" class="com.mcenter.certificate.DeathCertificateEmp" method="report">
+<interceptor-ref name="defaultStack" />
+</action>
+     
+<action name="medicalfitnesscertificateafterrecovryaction" class="com.mcenter.certificate.MedicalFitnessCertificateAfterRecovery" method="execute">
+                         <result type="json"></result>
+                         <interceptor-ref name="defaultStack" />
+</action>
+
+<action name="medicalcertificateforrestaction" class="com.mcenter.certificate.MedicalCertificateForRest" method="report">
+<interceptor-ref name="defaultStack" />
+</action> 
+<action name="medicalfitnesscertificatrecoveryeaction" class="com.mcenter.certificate.MedicalFitnessCertificateAfterRecovery" method="report">
+<interceptor-ref name="defaultStack" />
+</action> 
+
+ <action name="medicalfitnesscertificateaction" class="com.mcenter.certificate.MedicalFitnessCertificate" method="report">
+ <interceptor-ref name="defaultStack" />
+ </action> 
+   
+<action name="printtokenaction" class="com.mcenter.report.TokenforSerialedpatient" method="report">
+<interceptor-ref name="defaultStack" />
+</action> 
+ 
+ 
+<!--  		<action name="printtokenaction" class="com.mcenter.report.TokenforSerialedpatient" method="report" >	
+		<result type="stream">
+				<param name="contentType">application/pdf</param>
+				<param name="inputName">inputStream</param>				 
+		</result>	
+		<interceptor-ref name="defaultStack" />
+		</action> -->
+ 
+ <action name="totalbillaction" class="com.mcenter.report.TotalBill" method="report">
+ <interceptor-ref name="defaultStack" />
+ </action> 
+        
+<action name="printtestbillaction" class="com.mcenter.report.TestBill" method="report">
+<interceptor-ref name="defaultStack" />
+</action> 
+                         
+<action name="printmedinebillaction" class="com.mcenter.report.MedicineBill" method="report">
+<interceptor-ref name="defaultStack" />
+</action> 
+
+<action name="printTestBillAction" class="com.mcenter.report.TestBill" method="report">
+<interceptor-ref name="defaultStack" />
+</action>
+                         
+<action name="demoreportTestforOthersaction" class="com.mcenter.report.OutsiderTestBillPDFfilegeneration" method="report">
+                         <result type="json"></result>
+                         <interceptor-ref name="defaultStack" />
+</action> 
+        
+<action name="reportTestforOthersaction" class="com.mcenter.report.OutsiderTestBillTesting" method="report">
+                         <result name="success">abc.jsp</result>
+                         <interceptor-ref name="defaultStack" />
+</action>
+
+
+        
+<action name="searchpatientTestforOthersaction" class="com.mcenter.labtestBillManagement.TestBillforOthers" method="searchpatient">
+                         <result type="json"></result>
+                         <interceptor-ref name="defaultStack" />
+</action> 
+
+  <action name="createserialTestforOthersaction" class="com.mcenter.labtestBillManagement.TestBillforOthers" method="createSerial">
+                         <result type="json"></result>
+                         <interceptor-ref name="defaultStack" />
+</action> 
+
+<action name="entryTestforOthersaction" class="com.mcenter.labtestBillManagement.TestBillforOthers" method="patiententry">
+                         <result name="success">/WEB-INF/jsp/testforoutsiders/serialForOutsiderTestPatient.jsp</result>
+                         <interceptor-ref name="defaultStack" />
+</action> 
+
+<action name="updatedependentaction" class="com.mcenter.dependent.DependentList" method="updatedependent">
+                         <result name="success">/WEB-INF/jsp/dependent/showDependentList1.jsp</result>
+                         <interceptor-ref name="defaultStack" />
+</action> 
+ <action name="deletedependentaction" class="com.mcenter.dependent.DependentList" method="deletedependent">
+                         <result name="success">/WEB-INF/jsp/dependent/showDependentList1.jsp</result>
+                         <interceptor-ref name="defaultStack" />
+</action>  
+ 
+  <action name="showdependentlistsaction" class="com.mcenter.dependent.DependentList" method="dependentlist">
+                         <result name="success">/WEB-INF/jsp/dependent/showDependentList1.jsp</result>
+                         <interceptor-ref name="defaultStack" />
+</action>  
+ 
+  <action name="insertdependentaction" class="com.mcenter.dependent.AddDependent" method="saveDependent" >
+                         <result name="adnan">/WEB-INF/jsp/dependent/seedependentList1.jsp</result>
+                         <result name="error">/WEB-INF/jsp/dependent/addDependent1.jsp</result>
+                         <interceptor-ref name="defaultStack" />
+</action> 
+ 
+  
+  <action name="savedependentaction" class="com.mcenter.dependent.AddDependent" method="saveDependent">
+                         <result type="json"></result>
+                         <interceptor-ref name="defaultStack" />
+</action>        
+
+  <action name="dependentdesignation+officialIdaction" class="com.mcenter.dependent.AddDependent" method="designation_officialID">
+                         <result type="json"></result>
+                         <interceptor-ref name="defaultStack" />
+</action>  
+   <action name="dependentpersonaction" class="com.mcenter.dependent.AddDependent" method="person">
+                         <result type="json"></result>
+                         <interceptor-ref name="defaultStack" />
+</action> 
+ 
+  <action name="dependentdepartmentaction" class="com.mcenter.dependent.AddDependent" method="department">
+                         <result type="json"></result>
+                         <interceptor-ref name="defaultStack" />
+</action> 
+ 
+ <action name="testbilldetailsaction" class="com.mcenter.totalBill.TotalBillofEmployee" method="detailtestBill">
+                         <result name="success">/WEB-INF/jsp/totalbillhistory/detailtestbill1.jsp</result>
+                         <interceptor-ref name="defaultStack" />
+</action>        
+<action name="medicinebilldetailsaction" class="com.mcenter.totalBill.TotalBillofEmployee" method="detailmedicalBill">
+                         <result name="success">/WEB-INF/jsp/totalbillhistory/detailmedicinebill1.jsp</result>
+                         <interceptor-ref name="defaultStack" />
+</action>  
+ 
+<action name="totalbillofemployeeaction" class="com.mcenter.totalBill.TotalBillofEmployee" method="totalBillofemployee">
+                         <result name="success">/WEB-INF/jsp/totalbillhistory/totalBill.jsp</result>
+                         <interceptor-ref name="defaultStack" />
+</action>         
+ <action name="searchemployeeaction" class="com.mcenter.totalBill.TotalBillofEmployee" method="searchPerson">
+                         <result type="json"></result>
+                         <interceptor-ref name="defaultStack" />
+</action> 
+ <action name="searchnewstudentaction" class="com.mcenter.moneyReceiptofMedicalCheckUp.MoneyReceiptforNewstudentMedicalCheckup" method="searchstudentbyreceiptNO">
+                         <result type="json"></result>
+                         <interceptor-ref name="defaultStack" />
+</action> 
+       
+<action name="searchstudentaction" class="com.mcenter.totalBill.TotalBillofStudent" method="searchPerson">
+                         <result type="json"></result>
+                         <interceptor-ref name="defaultStack" />
+</action> 
+
+
+<action name="newstudentmedicalcheckupmoneyreceiptaction" class="com.mcenter.moneyReceiptofMedicalCheckUp.MoneyReceiptforNewstudentMedicalCheckup" method="insert">
+  <result name="success" type="redirectAction">reactionaction</result>
+            <interceptor-ref name="defaultStack" />
+</action>
+
+<action name="reactionaction" class="com.mcenter.report.MoneyReceiptforNewAdmitedStudent" method="report">
+   <result name="success" >/WEB-INF/jsp/newstudentmedicalcheckup/newstudentMedicalCheckUp1.jsp</result>
+   <interceptor-ref name="defaultStack" />
+ </action>
+ 
+<action name="savetestlistofnewstudentaction" class="com.mcenter.moneyReceiptofMedicalCheckUp.MoneyReceiptforNewstudentMedicalCheckup" method="testsave">
+   <result name="success" >/WEB-INF/jsp/newstudentmedicalcheckup/newstidentassignedtestshow.jsp</result>
+   <interceptor-ref name="defaultStack" />
+ </action> 
+ 
+ <action name="testlistreportofnewstudentaction" class="com.mcenter.report.NewStudentAssignedTestReport" method="report">
+   <result name="success" >/WEB-INF/jsp/newstudentmedicalcheckup/newstidentassignedtestshow.jsp</result>
+   <interceptor-ref name="defaultStack" />
+ </action> 
+ 
+<!-- <action name="newstudentmedicalcheckupmoneyreceiptaction" class="com.mcenter.moneyReceiptofMedicalCheckUp.MoneyReceiptforNewstudentMedicalCheckup" method="insert">
+                         <result type="json"></result>
+</action> -->
+  
+<action name="createreceiptaction" class="com.mcenter.moneyReceiptofMedicalCheckUp.MoneyReceiptforNewstudentMedicalCheckup" method="receiptNo">
+                         <result type="json"></result>
+                         <interceptor-ref name="defaultStack" />
+</action>  
+<action name="testtypeaction" class="com.mcenter.labtestBillManagement.TestBillforOthers" method="testType">
+                         <result type="json"></result>
+                         <interceptor-ref name="defaultStack" />
+</action> 
+
+<action name="testaction" class="com.mcenter.labtestBillManagement.TestBillforOthers" method="test">
+                         <result type="json"></result>
+                         <interceptor-ref name="defaultStack" />
+</action> 
+<action name="facultyaction"  class="com.mcenter.moneyReceiptofMedicalCheckUp.MoneyReceiptforNewstudentMedicalCheckup" method="execute">
+                         <result type="json"></result>
+                         <interceptor-ref name="defaultStack" />
+</action>
+<action name="departmentaction"  class="com.mcenter.moneyReceiptofMedicalCheckUp.MoneyReceiptforNewstudentMedicalCheckup" method="department">
+                         <result type="json"></result>
+                         <interceptor-ref name="defaultStack" />
+</action>
+ 
+<action name="saveTestforOthersaction"  class="com.mcenter.labtestBillManagement.TestBillforOthers" method="insertANDshow">
+                         <result name="success">/WEB-INF/jsp/testforoutsiders/testforOthersShow.jsp</result>
+                         <interceptor-ref name="defaultStack" />
+</action>  
+  
+<action name="editmedicinequantityBYdoctoraction" class="com.mcenter.editPrescriptionByDoctor.EditprescriptionByDoctor" method="editmedicineQuantiryBYdoctor">
+                    <result name="success">/WEB-INF/jsp/prescriptioneditbydoctor/searchedPrescriptionFoundedTOeditBYDoctor1.jsp</result>
+                    <interceptor-ref name="defaultStack" />
+                        <!--  <result type="json"></result> -->
+</action>
+ <action name="searchprescribedPersonbypharmasistaction" class="com.mcenter.pharmasistBillManagement.PharmacyMedicineBill" method="execute">
+                         <result type="json"></result>
+                         <interceptor-ref name="defaultStack" />
+</action>
+ <action name="searchprescriptionbyPharmasistaction"  class="com.mcenter.pharmasistBillManagement.PharmacyMedicineBill" method="medicineTABLE">
+                         <result name="success">/WEB-INF/jsp/pharmasistmedicinebill/dailyRegularMedicineBillShowByPharmasist1.jsp</result>
+                         <interceptor-ref name="defaultStack" />
+</action> 
+<action name="searchprescribedPersonbytechnicianaction" class="com.mcenter.labtestBillManagement.DailyRegularTestBill" method="execute">
+                         <result type="json"></result>
+                         <interceptor-ref name="defaultStack" />
+</action>
+ <action name="searchprescriptionbyTechnicianaction"  class="com.mcenter.labtestBillManagement.DailyRegularTestBill" method="testTABLE">
+                         <result name="success">/WEB-INF/jsp/techniciantestbill/dailyRegularTestBillShowByTechnician1.jsp</result>
+                         <interceptor-ref name="defaultStack" />
+</action> 
+
+
+
+<action name="searchprescriptionaction"  class="com.mcenter.editPrescriptionByDoctor.EditprescriptionByDoctor" method="editPrescription">
+                         <result name="success">/WEB-INF/jsp/prescriptioneditbydoctor/searchedPrescriptionFoundedTOeditBYDoctor1.jsp</result>
+                         <interceptor-ref name="defaultStack" />
+</action>   
+    
+<action name="editmedicineaction" class="com.mcenter.editPrescriptionByDoctor.EditprescriptionByDoctor" method="editMedicine">
+                         <result type="json"></result>
+                         <interceptor-ref name="defaultStack" />
+</action> 
+    
+        
+  <action name="editPrescriptionByDoctoraction" class="com.mcenter.editPrescriptionByDoctor.EditprescriptionByDoctor" method="editPrescription">
+                         <result name="success">/WEB-INF/jsp/prescriptioneditbydoctor/patientMedicineListEditByDoctor.jsp</result>
+                         <interceptor-ref name="defaultStack" />
+</action> 
+ <action name="editPrescriptionaction" class="com.mcenter.editPrescriptionByDoctor.EditprescriptionByDoctor" method="execute">
+                         <result type="json"></result>
+                         <interceptor-ref name="defaultStack" />
+</action> 
+
+
+ <action name="patientmedicineaction" class="com.mcenter.pharmasistBillManagement.PharmacyMedicineBill" method="medicineTABLE">
+                         <result name="success">/WEB-INF/jsp/pharmasistmedicinebill/patientMedicineListFORphatmasist.jsp</result>
+                         <interceptor-ref name="defaultStack" />
+</action> 
+
+    
+  
+ <action name="patientMedicineBillaction" class="com.mcenter.pharmasistBillManagement.PharmacyMedicineBill" method="execute">
+                        <result type="json"></result>
+                        <interceptor-ref name="defaultStack" />
+</action>   
+      
+<action name="searchAction" class="com.mcenter.patientManagement.DailyPatientInput" method="searchPatientAutocomplete">
+                        <result type="json"></result>
+                        <interceptor-ref name="defaultStack" />
+</action>      
+      
+        
+        
+ <action name="recommenddoctoraction" class="com.mcenter.doctorManagement.RecommendDoctor" method="doctorrecomendation">
+    <result name="success">/WEB-INF/jsp/token/tokenForRecommendedPatient.jsp</result>
+    <result name="error">/WEB-INF/jsp/patientserial/noActiveDoctor.jsp</result>
+    <interceptor-ref name="defaultStack" />
+  </action>
+  
+  <action name="normaldoctorrecomendation" class="com.mcenter.doctorManagement.RecommendDoctor" method="normaldoctorrecomendation">
+    <result name="success">/WEB-INF/jsp/token/tokenForRecommendedPatient.jsp</result>
+    <result name="error">/WEB-INF/jsp/patientserial/noActiveDoctor.jsp</result>
+    <interceptor-ref name="defaultStack" />
+  </action>        
+                        
+ <action name="activedoctor" class="com.mcenter.doctorManagement.DoctorInputDAO" method="execute">
+            <result type="json"></result>
+            <interceptor-ref name="defaultStack" />
+         </action>
+         
+         
+            
+  <action name="deactivedoctoraction" class="com.mcenter.doctorManagement.DeactivateDoctorDAO" method="deactiveDoctor">
+            <result type="json"></result> 
+            <interceptor-ref name="defaultStack" />          
+ </action>
+ 
+ <action name="reactivedoctoraction" class="com.mcenter.doctorManagement.DeactivateDoctorDAO" method="activeDoctor">
+            <result type="json"></result> 
+            <interceptor-ref name="defaultStack" />          
+ </action>
+ 
+  <action name="saveActiveDoctoraction" class="com.mcenter.doctorManagement.DoctorInputDAO" method="saveActiveDoctor">
+            <result type="json"></result>
+            <interceptor-ref name="defaultStack" />
+ </action>
+        
+
+ <action name="dailydoctorinputaction" class="com.mcenter.doctorManagement.DoctorInputDAO" method="execute">
+              <result name="success">/WEB-INF/jsp/doctorentry/dailydoctorinput1.jsp</result>
+              <interceptor-ref name="defaultStack" />
+     </action>
+
+<action name="activedoctoraction" class="com.mcenter.doctorManagement.ActiveDoctorDAO" method="execute">
+              <result name="success">/WEB-INF/jsp/doctorentry/activedoctor1.jsp</result>
+              <interceptor-ref name="defaultStack" />
+</action>
+
+
+ <action name="patientInCounterJSONaction" class="com.mcenter.doctorManagement.ActiveDoctorDAO" method="execute">
+<result name="success">/WEB-INF/jsp/patientserial/patientInCounterJSON1.jsp</result>
+<interceptor-ref name="defaultStack" />
+</action>
+
+
+ <action name="DailyDoctorVSpatientFinalListShowaction" class="com.mcenter.patientManagement.DailyDoctorVSpatientFinalListShowDAO" method="dailydoctorVSpatient">
+              <result name="success">/WEB-INF/jsp/patientlist_highchart/DailyDoctorVSpatientFinalListShow1.jsp</result>
+              <interceptor-ref name="defaultStack" />
+</action>
+
+
+
+
+ <action name="dailydoctorVSpatientchartaction" class="com.mcenter.patientManagement.DoctorPatientChartDAO" method="dailydoctorVSpatientchart">
+              <result name="success">/WEB-INF/jsp/patientlist_highchart/doctorVSpatientHighchart1.jsp</result>
+              <interceptor-ref name="defaultStack" />
+</action>
+
+<action name="patientsearchaction" class="com.mcenter.patientManagement.DailyPatientInput" method="searchIdholderName">
+              <result type="json"></result>
+              <interceptor-ref name="defaultStack" />
+</action>
+<action name="relationwithIDholderaction" class="com.mcenter.patientManagement.DailyPatientInput" method="relationwithIDholder">
+              <result type="json"></result>
+              <interceptor-ref name="defaultStack" />
+</action>
+
+<action name="searchpatientaction" class="com.mcenter.patientManagement.DailyPatientInput" method="searchPatient">
+              <result type="json"></result>
+              <interceptor-ref name="defaultStack" />
+</action>
+<action name="recomendationsearchpatientaction" class="com.mcenter.patientManagement.DailyPatientInput" method="searchPatient">
+              <result type="json"></result>
+              <interceptor-ref name="defaultStack" />
+</action>
+<action name="recomendedrelationwithIDholderaction" class="com.mcenter.patientManagement.DailyPatientInput" method="relationwithIDholder">
+              <result type="json"></result>
+              <interceptor-ref name="defaultStack" />
+</action>
+<action name="saveserialedpatientaction" class="com.mcenter.patientManagement.DailyPatientInput" method="savedailyPatient">
+     <result name="success">/WEB-INF/jsp/token/tokenForPatient.jsp</result>
+     <result name="error">/WEB-INF/jsp/patientserial/noActiveDoctor.jsp</result>
+     <interceptor-ref name="defaultStack" />
+              <!-- <result type="json"></result> -->
+</action>
+
+<action name="saveserialednonidpatientaction" class="com.mcenter.patientManagement.DailyPatientInput" method="savedailyregularNONIDPatient">
+     <result name="success">/WEB-INF/jsp/token/tokenForPatient.jsp</result>
+     <result name="error">/WEB-INF/jsp/patientserial/noActiveDoctor.jsp</result>
+     <interceptor-ref name="defaultStack" />
+              <!-- <result type="json"></result> -->
+</action>
+
+<action name="saveregularserialedpatientaction" class="com.mcenter.patientManagement.DailyPatientInput" method="savedailyregularPatient">
+     <result name="success">/WEB-INF/jsp/token/tokenForPatient.jsp</result>
+     <result name="error">/WEB-INF/jsp/patientserial/noActiveDoctor.jsp</result>
+     <interceptor-ref name="defaultStack" />
+              <!-- <result type="json"></result> -->
+</action>
+
+<action name="jsonactivedoctoraction" class="com.mcenter.doctorManagement.ActiveDoctorDAO" method="execute">
+              <result type="json"></result>
+              <interceptor-ref name="defaultStack" />
+</action>
+     	
+	<action name="start" class="store.receive.StoreReceiveAction">
+			<result name="success">/WEB-INF/jsp/start.jsp</result>
+			</action>
+
+		<action name="GetIssueItemList" class="store.issue.GetIssueItemList">
+		 <interceptor-ref name="defaultStack" />
+		</action>
+		
+		<action name="GetItemList" class="store.etc.GetItemList">
+		 <interceptor-ref name="defaultStack" />
+		</action>
+
+		<action name="GetThreeItem" class="store.issue.GetThreeItem">
+		 <interceptor-ref name="defaultStack" />
+		</action>
+		
+		<action name="saveIssue" class="store.issue.StoreIssueSave">
+			<result name="success">/WEB-INF/jsp/storeissue/issueView.jsp</result>	
+			<interceptor-ref name="defaultStack" />
+		</action>
+		
+		
+		
+		<action name="issueList" class="store.issue.StoreIssueListAction">		 
+		 <result name="success">/WEB-INF/jsp/storeissue/issuelist.jsp</result>		 
+		 <interceptor-ref name="defaultStack" />
+		</action>
+		
+	   <action name="newstudentReceiptList" class="com.mcenter.moneyReceiptofMedicalCheckUp.MoneyReceiptforNewstudentMedicalCheckupAction" method="receiptList">		 
+		 <result name="success">/WEB-INF/jsp/newstudentmedicalcheckup/newstudentReceiptlist.jsp</result>		 
+		 <interceptor-ref name="defaultStack" />
+		</action>
+		
+	    <action name="newstudentassignedtList" class="com.mcenter.moneyReceiptofMedicalCheckUp.MoneyReceiptforNewstudentMedicalCheckupAction" method="assignedtestList" >		 
+		 <result name="success">/WEB-INF/jsp/newstudentmedicalcheckup/newstudentTestlist.jsp</result>		 
+		 <interceptor-ref name="defaultStack" />
+		</action>
+		
+	    <action name="physicalexaminationList" class="com.mcenter.moneyReceiptofMedicalCheckUp.MoneyReceiptforNewstudentMedicalCheckupAction" method="physicalexaminationList" >		 
+		 <result name="success">/WEB-INF/jsp/newstudentmedicalcheckup/newstudentReceiptlist.jsp</result>		 
+		 <interceptor-ref name="defaultStack" />
+		</action>
+		
+<action name="rePrintNewStudentMoneyReceiptReportAction" class="com.mcenter.moneyReceiptofMedicalCheckUp.MoneyReceiptforNewstudentMedicalCheckup" method="rePrintReceipt">
+  <result name="success" type="redirectAction">reactionaction</result>
+            <interceptor-ref name="defaultStack" />
+</action>
+		
+<action name="rePrintNewStudentAssignedTestReportAction" class="com.mcenter.report.NewStudentAssignedTestReport" method="report">
+  <result name="success" type="redirectAction">reactionaction</result>
+            <interceptor-ref name="defaultStack" />
+</action>		
+		<action name="pdfIssue"  class="store.issue.StoreIssuePDFAction"  >	
+		<result type="stream">
+				<param name="contentType">application/pdf</param>
+				<param name="inputName">inputStream</param>				 
+		</result>	
+		<interceptor-ref name="defaultStack" />
+		</action>
+
+		<action name="MedController" class="store.etc.MedController">
+		 <interceptor-ref name="defaultStack" />
+		</action>
+		
+		<action name="TestController" class="store.test.TestController">		 
+	    <interceptor-ref name="defaultStack" />
+		</action>
+		<action name="TestTypeController" class="store.test.TestTypeController">		 
+	    <interceptor-ref name="defaultStack" />
+		</action>
+				
+		<action name="ComController" class="store.etc.ComController">
+		 <interceptor-ref name="defaultStack" />
+		</action>
+		<action name="GenController" class="store.etc.GenController">
+		 <interceptor-ref name="defaultStack" />
+		</action>	
+		
+		<action name="ComReagentController" class="store.etc.ComReagentController">
+		 <interceptor-ref name="defaultStack" />
+		</action>
+		
+		<action name="ReagentController" class="store.etc.ReagentController">
+		 <interceptor-ref name="defaultStack" />
+		</action>
+		
+		<action name="ReagentComController" class="store.etc.ReagentComController">
+		 <interceptor-ref name="defaultStack" />
+		</action>
+		
+		<action name="etcLoad" class="store.etc.EtcLoadAction">		 
+		 <result name="med">/WEB-INF/jsp/etc/medicine.jsp</result>	
+		 <result name="com">/WEB-INF/jsp/etc/company.jsp</result>
+		 <result name="gen">/WEB-INF/jsp/etc/generic.jsp</result>
+		 <result name="comReagent">/WEB-INF/jsp/etc/companyReagent.jsp</result>
+		 <result name="comAndReagent">/WEB-INF/jsp/etc/reagentAndcompany.jsp</result>
+		 <result name="reagent">/WEB-INF/jsp/etc/reagent.jsp</result>
+		 <result name="test">/WEB-INF/jsp/teststock/test.jsp</result>
+		 <result name="testType">/WEB-INF/jsp/teststock/testType.jsp</result>		
+		  <interceptor-ref name="defaultStack" />
+		</action>
+		
+		<action name="stock" class="store.etc.StockBalanceAction">		 
+		 <result name="cstore">/WEB-INF/jsp/etc/csStock.jsp</result>
+		 <result name="cstoreExpiredMed">/WEB-INF/jsp/etc/csStock.jsp</result>
+		 <result name="lstore">/WEB-INF/jsp/etc/lsStock.jsp</result>	
+		 <result name="lstoreExpiredMed">/WEB-INF/jsp/etc/lsStock.jsp</result>
+		 	 
+		 <interceptor-ref name="defaultStack" />
+		</action>
+		
+	
+		<action name="pReport" class="com.prescription.PrescriptionPdf">
+		<result type="stream">
+			<param name="contentType">application/pdf</param>
+			<param name="inputName">inputStream</param>
+		</result>
+
+		<interceptor-ref name="defaultStack"/>
+	</action>	 
+	
+	<action name="previouspReport" class="com.prescription.PreviousPrescriptionPdf">
+		<result type="stream">
+			<param name="contentType">application/pdf</param>
+			<param name="inputName">inputStream</param>
+		</result>
+		
+		<interceptor-ref name="defaultStack"/>
+	</action>
+	
+		<action name="pdfTest" class="com.prescription.TestDownloadPdf">
+		<result type="stream">
+			<param name="contentType">application/pdf</param>
+			<param name="inputName">inputStream</param>
+		</result>
+		
+		<interceptor-ref name="defaultStack"/>
+	</action>
+
+    <action name="searchPrescriptionTOeditBYDoctor1" class="store.receive.StoreReceiveAction">
+			<result name="success">/WEB-INF/jsp/prescriptioneditbydoctor/searchPrescriptionTOeditBYDoctor1.jsp</result>
+			<interceptor-ref name="defaultStack" />
+    </action> 
+
+
+ <action name="DailyDoctorVSpatientFinalListShow1" class="store.receive.StoreReceiveAction">
+			<result name="success">/WEB-INF/jsp/patientlist_highchart/DailyDoctorVSpatientFinalListShow1.jsp</result>
+
+	
+			<interceptor-ref name="defaultStack" />
+    </action> 
+    
+    
+
+     <action name="doctorVSpatientHighchart1" class="store.receive.StoreReceiveAction">
+			<result name="success">/WEB-INF/jsp/patientlist_highchart/doctorVSpatientHighchart1.jsp</result>
+	
+			<interceptor-ref name="defaultStack" />
+    </action> 
+    
+      <action name="dailyRegularMedicineBillSearchByPharmasist1" class="store.receive.StoreReceiveAction">
+			<result name="success">/WEB-INF/jsp/pharmasistmedicinebill/dailyRegularMedicineBillSearchByPharmasist1.jsp</result>
+	
+			<interceptor-ref name="defaultStack" />
+    </action> 
+    
+ 
+   <action name="newstudentMedicalCheckUp1" class="com.mcenter.doctorManagement.DoctorInputDAO" method="execute">
+			<result name="success">/WEB-INF/jsp/newstudentmedicalcheckup/newstudentMedicalCheckUp1.jsp</result>
+	
+			<interceptor-ref name="defaultStack" />
+    </action>  
+   
+ 
+<action name="totalBill" class="store.receive.StoreReceiveAction">
+			<result name="success">/WEB-INF/jsp/totalbillhistory/totalBill.jsp</result>
+	
+			<interceptor-ref name="defaultStack" />
+    </action>
+
+
+<action name="addDependent1" class="store.receive.StoreReceiveAction">
+			<result name="success">/WEB-INF/jsp/dependent/addDependent1.jsp</result>
+	
+			<interceptor-ref name="defaultStack" />
+    </action>
+
+
+<action name="medicalFitnessCertificate" class="store.receive.StoreReceiveAction">
+			<result name="success">/WEB-INF/jsp/certificate/medicalFitnessCertificate.jsp</result>
+	
+			<interceptor-ref name="defaultStack" />
+    </action>
+
+
+<action name="medicalFitnessCertificateAfterRecovery" class="store.receive.StoreReceiveAction">
+			<result name="success">/WEB-INF/jsp/certificate/medicalFitnessCertificateAfterRecovery.jsp</result>
+	
+			<interceptor-ref name="defaultStack" />
+    </action>
+
+<action name="deathcertificate" class="store.receive.StoreReceiveAction">
+			<result name="success">/WEB-INF/jsp/certificate/deathCertificate.jsp</result>
+	
+			<interceptor-ref name="defaultStack" />
+ </action>
+
+<action name="medicalcertificateforRest" class="store.receive.StoreReceiveAction">
+			
+	<result name="success">/WEB-INF/jsp/certificate/medicalcertificateforRest.jsp</result>
+			<interceptor-ref name="defaultStack" />
+ </action>
+
+    <action name="dailyRegularTestBillSearchByTechnician1" class="store.receive.StoreReceiveAction">
+			<result name="success">/WEB-INF/jsp/techniciantestbill/dailyRegularTestBillSearchByTechnician1.jsp</result>
+	
+			<interceptor-ref name="defaultStack" />
+    </action>
+
+
+    <action name="serialForOutsiderTestPatient" class="store.receive.StoreReceiveAction">
+			<result name="success">/WEB-INF/jsp/testforoutsiders/serialForOutsiderTestPatient.jsp</result>
+	
+			<interceptor-ref name="defaultStack" />
+    </action>
+    
+      <action name="testforOthers1" class="com.prescription.PrescriptionAction" method="prescription1">
+			<result name="success">/WEB-INF/jsp/testforoutsiders/testforOthers1.jsp</result>
+			<interceptor-ref name="defaultStack" />
+    </action>
+
+<!--   <action name="testforOthers1" class="store.receive.StoreReceiveAction">
+			<result name="success">/WEB-INF/jsp/testforoutsiders/testforOthers.jsp</result>
+	
+			<interceptor-ref name="defaultStack" />
+    </action> -->
+    
+   <action name="newstudenttestlistaction" class="com.prescription.PrescriptionAction" method="prescription1">
+			<result name="success">/WEB-INF/jsp/newstudentmedicalcheckup/fitnesstestassignform1.jsp</result>
+	
+			<interceptor-ref name="defaultStack" />
+    </action>
+    
+<!--        <action name="newstudenttestlistaction" class="com.prescription.PrescriptionAction" method="prescription1">
+			<result name="success">/WEB-INF/jsp/newstudentmedicalcheckup/fitnesstestassignform.jsp</result>
+	
+			<interceptor-ref name="defaultStack" />
+    </action>
+     -->
+    
+
+     <action name="personentry" class="store.receive.StoreReceiveAction">
+			<result name="success">/WEB-INF/jsp/allphysicalexaminationform/personentry.jsp</result>
+	
+			<interceptor-ref name="defaultStack" />
+    </action> 
+      
+     <action name="assignedtestformaction" class="com.prescription.PrescriptionAction" method="prescription">
+			<result name="success">/WEB-INF/jsp/allphysicalexaminationform/assignedtestform.jsp</result>
+	
+			<interceptor-ref name="defaultStack" />
+    </action>
+    
+     <action name="savepersonformedicalcheckupaction" class="com.mcenter.allphysicalexaminationform.Physicaltest" method="insert">
+  <result name="success" >/WEB-INF/jsp/allphysicalexaminationform/personentry.jsp</result>
+            <interceptor-ref name="defaultStack" />
+</action>
+
+ <action name="searchpersonformedicalcheckupaction" class="com.mcenter.allphysicalexaminationform.Physicaltest" method="searchmedicalcheckuppersonbyreceiptNO">
+                         <result type="json"></result>
+                         <interceptor-ref name="defaultStack" />
+</action> 
+<action name="createreceiptofmedicalcheckupaction" class="com.mcenter.allphysicalexaminationform.Physicaltest" method="receiptNo">
+                         <result type="json"></result>
+                         <interceptor-ref name="defaultStack" />
+</action> 
+
+
+ <action name="physicalexaminationANDtestsearchaction" class="store.receive.StoreReceiveAction">
+	<result name="success">/WEB-INF/jsp/allphysicalexaminationform/physicalexaminationANDtestresultformsearch.jsp</result>
+	
+<interceptor-ref name="defaultStack" />
+ </action>
+
+ <action name="physicalexaminationANDtestresultaction" class="com.mcenter.allphysicalexaminationform.Physicaltest" method="testTABLE">
+	<result name="success">/WEB-INF/jsp/allphysicalexaminationform/physicalexaminationANDtestresult.jsp</result>
+	
+<interceptor-ref name="defaultStack" />
+ </action>
+ 
+  <action name="physicalexaminationANDtestresultsaveaction" class="com.mcenter.allphysicalexaminationform.Physicaltest" method="physicalexaminationANDtestsave">
+	<result name="success">/WEB-INF/jsp/allphysicalexaminationform/physicalexaminationANDtestresultShow.jsp</result>
+	
+<interceptor-ref name="defaultStack" />
+ </action>
+ 
+  <action name="physicalexaminationANDtestresultsearchbyCMOaction" class="store.receive.StoreReceiveAction">
+	<result name="success">/WEB-INF/jsp/allphysicalexaminationform/physicalexaminationANDtestresultformsearchbyCMO.jsp</result>
+	
+<interceptor-ref name="defaultStack" />
+</action>
+
+  <action name="physicalexaminationANDtestresultfoundbyCMOaction" class="com.mcenter.allphysicalexaminationform.Physicaltest" method="physicalexaminationANDtestShow">
+	<result name="success">/WEB-INF/jsp/allphysicalexaminationform/physicalexaminationANDtestresultShowforCMO.jsp</result>
+	
+<interceptor-ref name="defaultStack" />
+ </action>
+
+  <action name="savetestlisttaction" class="com.mcenter.allphysicalexaminationform.Physicaltest" method="testsave">
+	<result name="success" >/WEB-INF/jsp/allphysicalexaminationform/assignedtestshow.jsp</result>
+<interceptor-ref name="defaultStack" />
+ </action>
+ 
+  <action name="testlistreportaction" class="com.mcenter.report.TestlistforPhysicalExamination" method="report">
+	<result name="success" >/WEB-INF/jsp/allphysicalexaminationform/assignedtestshow.jsp</result>
+<interceptor-ref name="defaultStack" />
+ </action> 
+ 
+ 
+ 
+  <action name="newstudentphysicalexaminationANDtestsearchaction" class="store.receive.StoreReceiveAction">
+	<result name="success">/WEB-INF/jsp/newstudentmedicalcheckup/newstudentphysicalexaminationANDtestresultformsearch.jsp</result>
+	
+<interceptor-ref name="defaultStack" />
+ </action>
+
+ <action name="searchstudentformedicalcheckupaction" class="com.mcenter.moneyReceiptofMedicalCheckUp.MoneyReceiptforNewstudentMedicalCheckup" method="searchmedicalcheckupstudentbyreceiptNO">
+                         <result type="json"></result>
+                         <interceptor-ref name="defaultStack" />
+</action> 
+
+ <action name="newstudentphysicalexaminationANDtestresultaction" class="com.mcenter.moneyReceiptofMedicalCheckUp.MoneyReceiptforNewstudentMedicalCheckup" method="testTABLE">
+	<result name="success">/WEB-INF/jsp/newstudentmedicalcheckup/newStudentphysicalexaminationSave.jsp</result>
+	
+<interceptor-ref name="defaultStack" />
+ </action>   
+
+<!--    <action name="newstudentphysicalexaminationANDtestresultaction" class="com.mcenter.moneyReceiptofMedicalCheckUp.MoneyReceiptforNewstudentMedicalCheckup" method="testTABLE">
+	  <result name="success">/WEB-INF/jsp/newstudentmedicalcheckup/newStudentphysicalexaminationANDtestresult.jsp</result>
+	
+      <interceptor-ref name="defaultStack" />
+      </action> -->   
+ 
+<!--  <action name="newStudentphysicalexaminationANDtestresultsaveaction" class="com.mcenter.moneyReceiptofMedicalCheckUp.MoneyReceiptforNewstudentMedicalCheckup" method="physicalexaminationANDtestsave">
+	<result name="success">/WEB-INF/jsp/newstudentmedicalcheckup/newStudentphysicalexaminationANDtestresultShow.jsp</result>
+	
+<interceptor-ref name="defaultStack" />
+ </action> -->
+ 
+  <action name="newStudentphysicalexaminationANDtestresultsaveaction" class="com.mcenter.moneyReceiptofMedicalCheckUp.MoneyReceiptforNewstudentMedicalCheckup" method="physicalexaminationsave">
+	<result name="success">/WEB-INF/jsp/newstudentmedicalcheckup/newStudentphysicalexaminationANDtestresultShow.jsp</result>
+	
+<interceptor-ref name="defaultStack" />
+ </action>
+ 
+ 
+ 
+  <action name="newstudentphysicalexaminationANDtestresultsearchbyCMOaction" class="store.receive.StoreReceiveAction">
+	<result name="success">/WEB-INF/jsp/newstudentmedicalcheckup/newstudentphysicalexaminationANDtestresultformsearchbyCMO.jsp</result>
+	
+<interceptor-ref name="defaultStack" />
+ </action>  
+  <action name="newstudentphysicalexaminationANDtestresultfoundbyCMOaction" class="com.mcenter.moneyReceiptofMedicalCheckUp.MoneyReceiptforNewstudentMedicalCheckup" method="physicalexaminationANDtestresultSHOW">
+	<result name="success">/WEB-INF/jsp/newstudentmedicalcheckup/newStudentphysicalexaminationANDtestresultShowforCMO.jsp</result>
+	
+<interceptor-ref name="defaultStack" />
+ </action>
+ 
+ <action name="newStudentphysicalexaminationANDtestresultPRINTaction" class="com.mcenter.report.NewstudentPhysicalAndTestReport" method="report">
+	<result name="success">/WEB-INF/jsp/newstudentmedicalcheckup/newStudentphysicalexaminationANDtestresultShow.jsp</result>
+	
+<interceptor-ref name="defaultStack" />
+ </action>
+ 
+ 
+
+   <action name="totalbillofmonthsearchaction" class="store.receive.StoreReceiveAction">
+	<result name="success">/WEB-INF/jsp/totalbillhistory/totalbillofmonth.jsp</result>
+	
+<interceptor-ref name="defaultStack" />
+ </action>
+ 
+ <action name="totalbillofmonthaction" class="com.mcenter.totalBill.TotalBillofMonth" method="totalBill">
+                         <result name="success">/WEB-INF/jsp/totalbillhistory/totalbillofmonth.jsp</result>
+                         <interceptor-ref name="defaultStack" />
+</action> 
+
+ <action name="totalbillofmonthreportaction" class="com.mcenter.report.TotalbillofMonthReport" method="report">
+                         <result name="success">/WEB-INF/jsp/totalbillhistory/totalbillofmonth.jsp</result>
+                         <interceptor-ref name="defaultStack" />
+</action> 
+
+<action name="closeshiftopenaction" class="store.receive.StoreReceiveAction">
+	<result name="success">/WEB-INF/jsp/colseshift/closeshift.jsp</result>
+    <interceptor-ref name="defaultStack" />
+</action>
+<action name="closeshiftaction" class="com.mcenter.closeshift.ShiftClose" method="closeshift">
+                         <result type="json"></result>
+                         <interceptor-ref name="defaultStack" />
+</action> 
+
+ <action name="physicalexaminationANDtestresultPRINTaction" class="com.mcenter.report.PhysicalAndTestReport" method="report">
+	<result name="success">/WEB-INF/jsp/newstudentmedicalcheckup/newStudentphysicalexaminationANDtestresultShow.jsp</result>
+	
+<interceptor-ref name="defaultStack" />
+ </action>
+
+<action name="testStockListAction" class="store.test.TestDAO" method="testTABLE">		 
+		 <result name="success">/WEB-INF/jsp/teststock/testStockList.jsp</result>		 
+		 <interceptor-ref name="defaultStack" />
+		</action>	
+   
+<!-- ///////////////////////////////Adnan Action///////////////////////////////////////////////-->
+
+        <action name="testtanmayShowaction" class="com.mcenter.patientManagement.DailyDoctorVSpatientFinalListShowDAO" method="dailydoctorVSpatient">
+              <result name="success">/WEB-INF/jsp/patientlist_highchart/testtanmay.jsp</result>
+              <interceptor-ref name="defaultStack" />
+</action>
+
+ <action name="testtanmayaction" class="store.receive.StoreReceiveAction">
+			<result>/WEB-INF/jsp/patientlist_highchart/testtanmay.jsp</result>
+			<interceptor-ref name="defaultStack" />
+    </action>
+    <action name="jesontest" class="store.receive.StoreReceiveAction">
+			<result>/WEB-INF/jsp/patientlist_highchart/Jsontest.jsp</result>
+			<interceptor-ref name="defaultStack" />
+    </action>
+  
+  
+  
+  <action name="printAction" class="com.mcenter.patientManagement.tanmayPrint" method="execute">
+     <result name="success">/WEB-INF/jsp/token/tokenForPatient.jsp</result>
+     <interceptor-ref name="defaultStack" />
+              <!-- <result type="json"></result> -->
+</action>
+
+<action name="testInsiderForOutDocAction" class="com.mcenter.labtestBillManagement.TestInsiderForOutDoc" method="execute">
+     <result type="json"></result>
+     <interceptor-ref name="defaultStack" />
+              <!-- <result type="json"></result> -->
+</action>
+    
+        	
+	
+	
+	<action name="entry_testInsiderForOutDocAction" class="com.mcenter.labtestBillManagement.TestInsiderForOutDoc" method="patiententry">
+     <result name="success">/WEB-INF/jsp/testforoutsiders/test_for_insider_out_doc.jsp</result>
+     <interceptor-ref name="defaultStack" />
+              <!-- <result type="json"></result> -->
+</action>
+
+<action name="Search_patient_for_insider_out_doc" class="com.mcenter.labtestBillManagement.TestInsiderForOutDoc" method="searchPatient">
+     <result type="json"></result>
+     <interceptor-ref name="defaultStack" />
+              <!-- <result type="json"></result> -->
+</action>
+
+<action name="test_serial_insider_out_doctor">
+		   
+			<result name="success">/WEB-INF/jsp/testforoutsiders/test_serial_for_insider_out_doc.jsp</result>
+			<interceptor-ref name="defaultStack" />
+		</action>
+		
+		<action name="test_insider_out_doctor" class="com.prescription.PrescriptionAction" method="prescription1">
+			<result name="success">/WEB-INF/jsp/testforoutsiders/testforOthers2.jsp</result>
+			<interceptor-ref name="defaultStack" />
+		</action> 
+		
+<!-- 		<action name="test_insider_out_doctor">
+		   
+			<result name="success">/WEB-INF/jsp/testforoutsiders/test_for_insider_out_doc.jsp</result>
+			<interceptor-ref name="defaultStack" />
+		</action>  -->
+		
+			<action name="save_Test_insider_out_doc"  class="com.mcenter.labtestBillManagement.TestInsiderForOutDoc" method="insertANDshow">
+                         <result name="success">/WEB-INF/jsp/testforoutsiders/testforOthersShow1.jsp</result>
+                         <interceptor-ref name="defaultStack" />
+			</action>  
+   
+		
+		
+<!--  		<action name="save_Test_insider_out_doc"  class="com.mcenter.labtestBillManagement.testInsiderForOutDoc" method="insertANDshow">
+                         <result name="success">/WEB-INF/jsp/testforoutsiders/test_for_insider_out_doc.jsp</result>
+                         <interceptor-ref name="defaultStack" />
+		</action>   -->
+		
+		<action name="reportInsiderOutDoc" class="com.mcenter.report.insiderOutDocReport" method="report">
+                         <result name="success">abc.jsp</result>
+                         <interceptor-ref name="defaultStack" />
+</action>
+
+
+<action name="testReduceFromStore" class="com.mcenter.labtestBillManagement.DailyRegularTestBill" method="testbillTABLEsave">
+                         <result name="success">/WEB-INF/jsp/techniciantestbill/dailyRegularTestBillprintByTechnician.jsp</result>
+                         <interceptor-ref name="defaultStack" />
+</action>
+
+
+		<action name="testReportSaveAdmissionInterface">
+		   			<result name="success">/WEB-INF/jsp/newstudentmedicalcheckup/testReportSaveAdmission.jsp</result>
+			<interceptor-ref name="defaultStack" />
+		</action>
+		
+	    <action name="testReportShowAdmissionInterface" >
+			<result name="success">/WEB-INF/jsp/newstudentmedicalcheckup/testReportShowAdmission.jsp</result>
+			<interceptor-ref name="defaultStack" />
+		</action>
+		
+		 <action name="testReportShownewAdmission" class="com.mcenter.moneyReceiptofMedicalCheckUp.MoneyReceiptforNewstudentMedicalCheckupAction" method="testReportShowNewAdmission">
+                         <result type="json"></result>
+                         <interceptor-ref name="defaultStack" />
+         </action> 
+		
+      
+
+		
+ <action name="saveTestReportAdmission" class="com.mcenter.moneyReceiptofMedicalCheckUp.MoneyReceiptforNewstudentMedicalCheckup" method="testReportSaveAdmissionMethods">
+	<result name="success">/WEB-INF/jsp/newstudentmedicalcheckup/testReportSaveAdmission.jsp</result>
+	
+<interceptor-ref name="defaultStack" />
+ </action>   
+
+	</package>	
+	
+</struts>
+
+
+
+
+

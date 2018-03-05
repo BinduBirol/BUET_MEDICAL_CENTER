@@ -1,0 +1,610 @@
+table.data {
+	border: 1px solid #000;
+	background-color: #D4D0C8;
+	background-position: center;
+	color: #000;
+	padding: 10px;
+	margin-bottom: 10px;
+	margin-top: 5px;
+}
+
+table.data td,th {
+	padding: 2px;
+}
+
+
+
+/* =links
+----------------------------------------------- */
+table.data table a {
+	color: #3366CC;
+	text-decoration: none;
+}
+
+table.data table a:link {
+	color: #3366CC;
+}
+
+table.data table a:visited {
+	color: #3366CC;
+}
+
+/* thead tbody tfoot
+----------------------------------------------- */
+table.data thead th,table.data tfoot th,table.data tfoot td  ,table.data tbody th,table.data tbody td
+	{
+	color: #000;
+	font: 10pt Verdana;
+	border-right: 1px solid #aaa;
+	border-top: 1px solid #eee;
+	border-left: 1px solid #eee;
+	border-bottom: 1px solid #aaa;
+}
+
+table.data thead th,table.data tfoot th,table.data tfoot td {
+	background-color: #ccc;
+	background-position: center;
+	font-weight: bold;
+	text-align: center;
+}
+
+table.data tfoot td {
+	text-align: right
+}
+
+table.data tbody th {
+	white-space: nowrap;
+	font-weight: bold;
+	text-align: left;
+}
+
+/*----------------------------------------------------------------------*/
+
+/*-----------------------------------------------------------*/
+
+
+table.sptable {
+	border: 1px solid #000;
+	background-color: #D4D0C8;
+	color: #000;
+}
+
+table.sptable td,th {
+	padding: 2px;
+}
+
+
+/* =links
+----------------------------------------------- */
+table.sptable table a {
+	color: #3366CC;
+	text-decoration: none;
+}
+
+table.sptable table a:link {
+	color: #3366CC;
+}
+
+table.sptable table a:visited {
+	color: #3366CC;
+}
+
+table.sptable table a:hover {
+	color: chocolate;
+}
+
+/* thead tbody tfoot
+----------------------------------------------- */
+table.sptable thead th,table.sptable tfoot th,table.sptable tfoot td  ,table.sptable tbody th,table.sptable tbody td
+	{
+	color: #000;
+	font: 10pt Verdana;
+	border-right: 1px solid #aaa;
+	border-top: 1px solid #eee;
+	border-left: 1px solid #eee;
+	border-bottom: 1px solid #aaa;
+}
+
+table.sptable thead th,table.sptable tfoot th,table.sptable tfoot td {
+	background-color: #ccc;
+	font-weight: bold;
+	text-align: center;
+}
+
+table.sptable tfoot td {
+	text-align: right
+}
+
+table.sptable tbody th {
+	white-space: nowrap;
+	font-weight: bold;
+	text-align: left;
+}
+
+caption {
+	text-align: left;
+	font: bold 10pt Verdana;
+	color: #4F4F4F;
+	/*margin: 3px 0;*/
+}
+
+
+/* Visual and hover effects */
+table.sptable .odd td {
+	
+}
+
+table.sptable tbody tr:hover td {
+	background-color: silver;
+	border-right: 1px solid #eee;
+	border-top: 1px solid #999;
+	border-left: 1px solid #999;
+	border-bottom: 1px solid #eee;
+	background-color: #CF8785;
+}
+
+/****** class datasheet *****/
+table.datasheet {
+	border: 1px solid #000;
+	background-color: #D4D0C8;
+	color: #000;
+}
+
+table.datasheet th {
+	padding: 3px;
+	background-color: #ddd;
+	border-top: 1px solid #eef;
+	border-left: 1px solid #eef;
+	border-right: 1px solid #999;
+	border-bottom: 1px solid #999;
+	color: #003;
+	/*font-size: .9em;*/
+	font-weight: bold;
+	/*text-align: center;*/
+}
+
+table.datasheet tbody th {
+	/*text-align: right;*/
+	padding: 1px 3px 1px 1px;
+	color: #222;
+}
+
+table.datasheet tr {
+	vertical-align: top;
+}
+
+table.datasheet td {
+	spacing: 5px;
+	border-left: 1px solid #999;
+	border-right: 1px solid #999;
+	border-bottom: 1px solid #999;
+	background-color: #fff;
+	font-size: 10pt;
+}
+
+
+
+/****** end class datasheet *****/
+
+/****** class logtab *****/
+
+
+/****** end class logtab *****/
+
+
+.tableWidget_headerCell,.tableWigdet_headerCellOver,.tableWigdet_headerCellDown
+	{
+	/* General rules for both standard column header and mouse on header of sortable columns */
+	cursor: pointer;
+	border-bottom: 3px solid #C5C2B2;
+	border-right: 1px solid #ACA899;
+	border-left: 1px solid #FFF;
+	background-color: #ECE9D8;
+}
+
+.tableWidget_headerCell { /* Standard column header */
+	border-top: 2px solid #ECE9D8;
+}
+
+.tableWigdet_headerCellOver { /* Rollover on sortable column header */
+	border-top: 2px solid #FFC83C;
+}
+
+.tableWidget tbody .tableWidget_dataRollOver {
+	/* Rollover style on mouse over (Data) */
+	background-color: #FFF;
+	/* No mouseover color in this example - specify another color if you want this */
+}
+
+.tableWigdet_headerCellDown {
+	border-top: 2px solid #FFC83C;
+	background-color: #DBD8C5;
+	border-left: 1px solid #ACA899;
+	border-right: 1px solid #FFF;
+}
+
+.tableWidget td {
+	margin: 0px;
+	padding: 2px;
+	border-bottom: 1px solid #EAE9E1;
+	/* Border bottom of table data cells */
+}
+
+.tableWidget tbody {
+	background-color: #FFF;
+}
+
+.tableWidget {
+	font-family: arial;
+	font-size: 10pt;
+	/*width:200px;*/
+}
+
+/* End layout CSS */
+div.widget_tableDiv {
+	border: 1px solid #ACA899; /* Border around entire widget */
+	height: 100px;
+	overflow: auto;
+	overflow-y: auto;
+	overflow: -moz-scrollbars-vertical;
+	/*width:400px;*/
+}
+
+html>body div.widget_tableDiv {
+	overflow: hidden;
+	/*width:400px;*/
+}
+
+.tableWidget thead {
+	position: relative;
+}
+
+.tableWidget thead tr {
+	position: relative;
+	top: 0px;
+	bottom: 0px;
+}
+
+.tableWidget .scrollingContent {
+	overflow-y: auto;
+	overflow: -moz-scrollbars-vertical;
+	width: 100%;
+}
+
+div#detailDiv {
+	margin: 40px auto;
+	padding: 10px 40px 40px 40px;
+	/*border:1px solid #CCC;
+	background-color:#FFF;
+	width:620px;*/
+}
+
+div#detailDiv img {
+	float: left;
+	margin: 0 8px 8px 0;
+	/*background-color:#FFF;*/
+	background-image: url(/brtcoffice/resource/images/ajax-loader.gif);
+	background-repeat: no-repeat;
+	background-position: center center;
+	border: 1px solid #EEE;
+}
+
+div#cleardiv {
+	height: 1px;
+	clear: both;
+}
+
+table.messageBox {
+	Color: black;
+	border: 1px solid #79BCFF;
+	text-align: center;
+}
+
+/*sortable table style*/
+table.tablesorter {
+	font-family: arial;
+	background-color: #CDCDCD;
+	/*margin:10px 0pt 15px;*/
+	font-size: 10pt;
+	width: 100%;
+	text-align: left;
+}
+
+table.tablesorter thead tr th,table.tablesorter tfoot tr th {
+	background-color: #e6EEEE;
+	border: 1px solid #FFF;
+	font-size: 10pt;
+	padding: 4px;
+}
+
+table.tablesorter thead tr .header {
+	background-image: url(bg.gif);
+	background-repeat: no-repeat;
+	background-position: center right;
+	cursor: pointer;
+}
+
+table.tablesorter tbody td {
+	color: #3D3D3D;
+	padding: 4px;
+	background-color: #FFF;
+	vertical-align: top;
+}
+
+table.tablesorter tbody tr.odd td {
+	background-color: #F0F0F6;
+}
+
+table.tablesorter thead tr .headerSortUp {
+	background-image: url(/brtcoffice/resource/images/arrow_up.gif);
+}
+
+table.tablesorter thead tr .headerSortDown {
+	background-image: url(/brtcoffice/resource/images/arrow_down.gif);
+}
+
+table.tablesorter thead tr .headerSortDown,table.tablesorter thead tr .headerSortUp
+	{
+	background-color: #8dbdd8;
+}
+
+
+
+/****** Style for message, warning, error etc ****/
+/* --------------------------------- */
+/*MESSAGE BOX CLEAN	serie	  		 */
+	.clean-gray{
+		border:solid 1px #DEDEDE; 
+		background:#EFEFEF;
+		color:#222222;
+		padding:4px;
+		text-align:center;
+	}
+	.clean-yellow{
+		border:solid 1px #DEDEDE; 
+		background:#FFFFCC;
+		color:#222222;
+		padding:4px;
+		text-align:center;
+	}
+	.clean-ok{
+		border:solid 1px #349534; 
+		background:#C9FFCA;
+		color:#008000;
+		font-weight:bold;
+		padding:4px;
+		text-align:center;
+	}
+	.clean-error{
+		border:solid 1px #CC0000; 
+		background:#F7CBCA;
+		color:#CC0000;
+		font-weight:bold;
+		padding:4px;
+		text-align:center;
+	}
+ 
+/* --------------------------------- */
+/*MESSAGE BOX Iconized	  		 */
+	.icon-gray{
+		border:solid 1px #DEDEDE; 
+		background:#EFEFEF;
+		color:#222222;
+		padding:4px;
+		text-align:center;
+	}
+	.icon-yellow{
+		border:solid 1px #DEDEDE; 
+		background:#FFFFCC url(/DSTORE/resource/images/error_bang.gif) left no-repeat;
+		color:#222222;
+		padding:4px;
+		text-align:center;
+		margin: 0 auto;
+	}
+	.icon-ok{
+		border:solid 1px #90ac13; 
+		background:#eef4d3 url(img/icon-green.png) 8px 6px no-repeat;
+		color:#6b800d;
+		font-weight:bold;
+		padding:4px;
+		text-align:center;
+	}
+	.icon-error{
+		border:solid 1px #CC0000; 
+		background:#F7CBCA url(img/icon-red.png) 8px 6px no-repeat;
+		color:#CC0000;
+		font-weight:bold;
+		padding:4px;
+		text-align:center;
+	}
+	
+/* --------------------------------- */
+/*MESSAGE BOX SOLID	serie	  		 */
+ 
+	.solid-gray{
+		background:#444444;
+		color:#FFFFFF;
+		padding:4px;
+		text-align:center;
+	}
+	.solid-yellow{
+		background:#FFFFCC;
+		color:#222222;
+		padding:4px;
+		text-align:center;
+	}
+	.solid-ok{
+		background:#008000;
+		color:#FFFFFF;
+		font-weight:bold;
+		padding:4px;
+		text-align:center;
+	}
+	.solid-error{
+		background:#CC0000;
+		color:#FFFFFF;
+		font-weight:bold;
+		padding:4px;
+		text-align:center;
+	}
+	
+/* --------------------------------- */
+/* ROUNDED ALTERNATE	  		 	*/
+ 
+	/* ---------------------------------------------------------------------- */
+	.round-a-gray{
+		background:#444444 url(img/round_gray-left.png) left top no-repeat;
+		color:#FFFFFF;
+		text-align:center;
+	}
+		.round-a-gray div{
+			background:url(img/round_gray-right.png) right bottom no-repeat;
+			padding:4px;
+		}
+	/* ---------------------------------------------------------------------- */
+	.round-a-ok{
+		background:#008000 url(img/round_green-left.png) left top no-repeat;
+		color:#FFFFFF;
+		text-align:center;
+	}
+		.round-a-ok div{
+			background:url(img/round_green-right.png) right bottom no-repeat;
+			padding:4px;
+		}
+	/* ---------------------------------------------------------------------- */
+	.round-a-error{
+		background:#CC0000 url(img/round_red-left.png) left top no-repeat;
+		color:#FFFFFF;
+		text-align:center;
+	}
+		.round-a-error div{
+			background:url(img/round_red-right.png) right bottom no-repeat;
+			padding:4px;
+		}
+		
+/* --------------------------------- */
+/* TOOLTIPS				  		 	*/
+ 
+	/* ---------------------------------------------------------------------- */
+	.tooltips-gray{
+		background:#444444;
+		color:#FFFFFF;
+		text-align:center;
+		padding-top:4px;
+	}
+		.tooltips-gray div{
+			background:url(img/tips_gray.png) left bottom no-repeat;
+			padding-top:4px;
+			height:18px;
+		}
+	/* ---------------------------------------------------------------------- */
+	.tooltips-ok{
+		background:#008000;
+		color:#FFFFFF;
+		text-align:center;
+		padding-top:4px;
+	}
+		.tooltips-ok div{
+			background:url(img/tips_green.png) left bottom no-repeat;
+			padding-top:4px;
+			height:18px;
+		}
+	/* ---------------------------------------------------------------------- */
+	.tooltips-error{
+		background:#CC0000;
+		color:#FFFFFF;
+		text-align:center;
+		padding-top:4px;
+	}
+		.tooltips-error div{
+			background:url(img/tips_red.png) left bottom no-repeat;
+			margin-top:4px;
+			height:18px;
+		}
+
+		
+		
+/*Round corner sideboxes*/
+.xrounded h1,.zrounded h1 {
+	margin: 0;
+	font-size: 1.2em;
+	padding: 0 8px 3px 8px;
+	border-bottom: 1px solid #d0d0d0;
+}
+
+.xrounded p,.zrounded p {
+	margin: 0;
+	padding: 5px 0;
+	font-size: 15px;
+	line-height: 125%;
+}
+
+.xrounded {
+	background: transparent;
+	width: 450px; /*Adjust the width here*/
+	float: left;
+	margin: 0 0 15px 0;
+	line-height: 125%;
+}
+
+.xtop,.xbottom {
+	display: block;
+	background: transparent;
+	font-size: 1px;
+}
+
+.xb1,.xb2,.xb3,.xb4 {
+	display: block;
+	overflow: hidden;
+}
+
+.xb1,.xb2,.xb3 {
+	height: 1px;
+}
+
+.xb2,.xb3,.xb4 {
+	background: #fff;
+	border-left: 1px solid #d0d0d0;
+	border-right: 1px solid #d0d0d0;
+}
+
+.xb1 {
+	margin: 0 5px;
+	background: #d0d0d0;
+}
+
+.xb2 {
+	margin: 0 3px;
+	border-width: 0 2px;
+}
+
+.xb3 {
+	margin: 0 2px;
+}
+
+.xb4 {
+	height: 2px;
+	margin: 0 1px;
+}
+
+.xboxcontent {
+	display: block;
+	border: 0 solid #d0d0d0;
+	border-width: 0 1px;
+	height: 100px;
+	background: #fff;
+	vertical-align: center;
+}
+
+div.xboxcontent div {
+	padding: 0 4px 0 8px;
+}
+
+* html .xboxcontent {
+	height: 1px;
+}
+
+.color_a {
+	background: #A5D3FF; /* Change the top part color here*/
+	color: #000;
+}		
